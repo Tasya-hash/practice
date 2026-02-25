@@ -1,4 +1,4 @@
-package ci.nsu.moble.main
+package ci.nsu.moble.le.main
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
