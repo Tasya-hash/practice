@@ -1,5 +1,6 @@
 package ci.nsu.moble.main
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,7 +22,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.view.KeyEventDispatcher
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
 import ci.nsu.moble.main.ui.theme.PracticeTheme
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,19 +44,72 @@ class MainActivity : ComponentActivity() {
     }
 }
 // TODO:  here is to open the second activity
+
+class SecondActivity: ComponentActivity(){
+    override fun onCreate(savedInstanceState: Bundle?){
+        super.onCreate(savedInstanceState)
+
+        val text = intent.getStringExtra("text") ?: ""
+
+        setContent {
+            SecondScreen(text){
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
+        }
+    }
+}
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SecondScreen(text: String, onBack: () -> Unit) {
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Second Screen") },
+                navigationIcon = {
+                    Button(onClick = { onBack() }) {
+                        Text("Back")
+                    }
+                }
+            )
+        }
+    ) { padding ->
+
+        Column(
+            modifier = Modifier
+                .padding(padding)
+                .padding(16.dp)
+        ) {
+            Text("Received text:")
+            Text(text)
+        }
+    }
+}
 @Composable
 fun MainScreenActivity(modifier: Modifier = Modifier) {
     var text by remember { mutableStateOf("") }
     val context = LocalContext.current
 
     Column(
-        modifier = modifier.fillMaxSize().padding(16.dp),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         // TODO:  нужно добавить  TextField
+        TextField(
+            value = text,
+            onValueChange = {text = it},
+            label = {Text("Enter text")}
+        )
         Button(
             onClick = {
-                // TODO:  нужно добавить кнопку которая по клику открывает второе активити через интент
+                //TODO:  нужно добавить кнопку которая по клику открывает второе активити через интент
+                val intent = Intent(context, SecondActivity::class.java)
+                intent.putExtra("text", text)
+                context.startActivity(intent)
             },
             modifier = Modifier.padding(top = 16.dp)
         ) {
