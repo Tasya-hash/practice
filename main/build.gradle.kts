@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "ci.nsu.moble.main"
-    compileSdk = 36
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "ci.nsu.moble.main"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -41,7 +41,7 @@ android {
 
 dependencies {
 
-    implementation("com.android.support:appcompat-v7:28.0.0")
+    implementation("androidx.appcompat:appcompat:1.7.1")
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
