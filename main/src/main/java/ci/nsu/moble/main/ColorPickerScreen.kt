@@ -23,6 +23,7 @@ fun ColorPickerScreen(
     viewModel: ColorPickerViewModel = viewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    //collectAsStateWithLifecycle() - подписывается на StateFlow и автомат. обновляет UI
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -37,6 +38,7 @@ fun ColorPickerScreen(
         ) {
 
             Text(
+                //Заголовок
                 text = "Color Picker",
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
@@ -44,6 +46,7 @@ fun ColorPickerScreen(
             )
 
             Card(
+                //Превью цвета
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(200.dp),
@@ -68,7 +71,7 @@ fun ColorPickerScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-
+            //Три слайдера RGB
             ColorSlider(
                 label = "Red",
                 value = uiState.red.toFloat(),
@@ -95,6 +98,7 @@ fun ColorPickerScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
+            //Информация о значениях RGB
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
@@ -113,6 +117,7 @@ fun ColorPickerScreen(
                 }
             }
 
+            //Кнопка случайного цвета
             Button(
                 onClick = { viewModel.generateRandomColor() },
                 modifier = Modifier
@@ -135,10 +140,10 @@ fun ColorPickerScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ColorSlider(
-    label: String,
-    value: Float,
-    onValueChange: (Float) -> Unit,
-    colors: List<Color>,
+    label: String, //"Red", "Green", "Blue"
+    value: Float, //текущее значение
+    onValueChange: (Float) -> Unit, //колбэк при изменении
+    colors: List<Color>, //цвета для оформления
     modifier: Modifier = Modifier
 ){
     Column(
@@ -164,18 +169,19 @@ fun ColorSlider(
         }
         Slider(
             value = value,
-            onValueChange = onValueChange,
-            valueRange = 0f..255f,
+            onValueChange = onValueChange, //передает новое значение
+            valueRange = 0f..255f, //диапазон значений
             colors = SliderDefaults.colors(
                 thumbColor = colors.first(),
                 activeTrackColor = colors.first(),
                 inactiveTrackColor = colors.last()
             ),
-            steps = 254
+            steps = 254 //дискретность (всего 255 значений)
         )
     }
 }
 @Composable
+//отображает значение цвета в отдельном блоке
 fun InfoChip(
     label: String,
     value: String,
@@ -204,6 +210,7 @@ fun InfoChip(
         }
     }
 }
+//определяет яркость цвета
 fun isDarkColor(color:Color):Boolean{
     val luminace = 0.299 * color.red + 0.587 * color.green + 0.114 * color.blue
     return luminace < 0.5
