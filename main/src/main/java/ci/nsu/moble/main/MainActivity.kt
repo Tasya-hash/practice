@@ -13,7 +13,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            // Используем MaterialTheme напрямую без обертки
             MaterialTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),

@@ -38,7 +38,7 @@ fun ColorPickerScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            // Заголовок
+
             Text(
                 text = "Color Picker",
                 fontSize = 28.sp,
@@ -46,7 +46,6 @@ fun ColorPickerScreen(
                 color = MaterialTheme.colorScheme.primary
             )
 
-            // Превью цвета
             Card(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -72,7 +71,7 @@ fun ColorPickerScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Красный слайдер
+
             ColorSlider(
                 label = "Red",
                 value = uiState.red.toFloat(),
@@ -81,7 +80,6 @@ fun ColorPickerScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            // Зеленый слайдер
             ColorSlider(
                 label = "Green",
                 value = uiState.green.toFloat(),
@@ -90,7 +88,6 @@ fun ColorPickerScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            // Синий слайдер
             ColorSlider(
                 label = "Blue",
                 value = uiState.blue.toFloat(),
@@ -101,7 +98,6 @@ fun ColorPickerScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            // Информация о значениях RGB
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 colors = CardDefaults.cardColors(
@@ -120,7 +116,6 @@ fun ColorPickerScreen(
                 }
             }
 
-            // Кнопка случайного цвета
             Button(
                 onClick = { viewModel.generateRandomColor() },
                 modifier = Modifier
