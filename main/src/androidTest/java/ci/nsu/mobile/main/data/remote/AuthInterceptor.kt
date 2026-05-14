@@ -1,4 +1,22 @@
 package ci.nsu.mobile.main.data.remote
 
-class AuthInterceptor {
+import okhttp3.Interceptor
+import okhttp3.Response
+import ci.nsu.mobile.main.utils.TokenManager
+
+class AuthInterceptor(private val tokenManager: TokenManager) : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val originalRequest = chain.request()
+        val token = tokenManager.getToken()
+
+        val requestWithAuth = if (token != null) {
+            originalRequest.newBuilder()
+                .header("Authorization", "Bearer $token")
+                .build()
+        } else {
+            originalRequest
+        }
+
+        return chain.proceed(requestWithAuth)
+    }
 }
