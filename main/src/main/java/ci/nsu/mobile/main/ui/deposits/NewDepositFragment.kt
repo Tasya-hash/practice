@@ -41,8 +41,6 @@ class NewDepositFragment : Fragment() {
         setupStepButtons()
         setupCalculateButton()
         observeViewModel()
-
-        // Показываем первый шаг
         showStepOne()
     }
 
@@ -159,7 +157,6 @@ class NewDepositFragment : Fragment() {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
                 depositViewModel.clearMessage()
 
-                // Если расчёт сохранён успешно, очищаем форму
                 if (it.contains("сохранён")) {
                     clearForm()
                 }

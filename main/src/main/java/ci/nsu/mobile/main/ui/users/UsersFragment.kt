@@ -85,7 +85,7 @@ class UsersFragment : Fragment() {
         usersViewModel.error.observe(viewLifecycleOwner) { error ->
             error?.let {
                 Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
-                usersViewModel.error.postValue(null)
+                usersViewModel.clearError()
             }
         }
     }

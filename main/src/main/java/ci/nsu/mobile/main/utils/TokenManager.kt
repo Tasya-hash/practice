@@ -13,7 +13,7 @@ class TokenManager(private val context: Context) {
         prefs = EncryptedSharedPreferences.create(
             "secure_prefs",
             masterKeyAlias,
-            context,
+            context.applicationContext,
             EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
             EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
         )

@@ -1,16 +1,15 @@
 package ci.nsu.mobile.main.ui.auth
+
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import ci.nsu.mobile.main.databinding.ActivityAuthBinding
 import ci.nsu.mobile.main.di.ServiceLocator
 import ci.nsu.mobile.main.ui.main.MainActivity
 import ci.nsu.mobile.main.ui.shared.ViewModelFactory
-import kotlinx.coroutines.launch
 
 class AuthActivity : AppCompatActivity() {
 
@@ -59,12 +58,12 @@ class AuthActivity : AppCompatActivity() {
             binding.btnToggleMode.text = "Нет аккаунта? Зарегистрироваться"
             binding.btnSubmit.text = "Войти"
             binding.titleText.text = "Вход в систему"
-            binding.usernameInputLayout.visibility = View.GONE
+            binding.etUsername.visibility = View.GONE
         } else {
             binding.btnToggleMode.text = "Уже есть аккаунт? Войти"
             binding.btnSubmit.text = "Зарегистрироваться"
             binding.titleText.text = "Регистрация"
-            binding.usernameInputLayout.visibility = View.VISIBLE
+            binding.etUsername.visibility = View.VISIBLE
         }
     }
 

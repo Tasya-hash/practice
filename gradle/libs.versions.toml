@@ -10,7 +10,7 @@ material = "1.11.0"
 constraintlayout = "2.1.4"
 lifecycleVersion = "2.7.0"
 navigationVersion = "2.7.6"
-roomVersion = "2.6.1"
+roomVersion = "2.5.2"
 retrofitVersion = "2.9.0"
 okhttpVersion = "4.12.0"
 coroutinesVersion = "1.7.3"
@@ -19,7 +19,8 @@ securityCrypto = "1.1.0-alpha06"
 mockitoVersion = "5.7.0"
 archCoreVersion = "2.2.0"
 viewpager2 = "1.0.0"
-
+room = "2.6.1"
+ksp = "1.9.22-1.0.17"
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
@@ -65,3 +66,4 @@ androidx-arch-core-testing = { group = "androidx.arch.core", name = "core-testin
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

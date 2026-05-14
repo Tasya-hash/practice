@@ -10,7 +10,6 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <!-- Шаг 1 -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/stepOneLayout"
             android:layout_width="match_parent"
@@ -110,7 +109,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <!-- Шаг 2 -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/stepTwoLayout"
             android:layout_width="match_parent"

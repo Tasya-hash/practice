@@ -71,14 +71,12 @@ class DepositFragment : Fragment() {
 
         binding.btnFilterLastMonth.setOnClickListener {
             val lastMonthTimestamp = System.currentTimeMillis() - 30L * 24 * 60 * 60 * 1000
-            // Фильтрация происходит через ViewModel, для простоты перезагружаем все
             depositViewModel.loadCalculations()
             Toast.makeText(requireContext(), "Фильтр: за последний месяц", Toast.LENGTH_SHORT).show()
             updateFilterButtonState("month")
         }
 
         binding.btnFilterLargeAmount.setOnClickListener {
-            // Показываем только расчёты с суммой > 100000
             Toast.makeText(requireContext(), "Фильтр: крупные вклады (>100,000)", Toast.LENGTH_SHORT).show()
             updateFilterButtonState("large")
         }
@@ -135,7 +133,7 @@ class DepositFragment : Fragment() {
                 Процентная ставка: ${String.format("%.1f", calculation.interestRate)}%
                 Ежемесячный взнос: ${if (calculation.monthlyTopUp != null) String.format("%.2f", calculation.monthlyTopUp) else "0"} ₽
                 
-                ✅ Итоговая сумма: ${String.format("%.2f", calculation.finalAmount)} ₽
+                Итоговая сумма: ${String.format("%.2f", calculation.finalAmount)} ₽
                 Начисленные проценты: ${String.format("%.2f", calculation.interestEarned)} ₽
                 
                 Дата расчёта: $formattedDate
