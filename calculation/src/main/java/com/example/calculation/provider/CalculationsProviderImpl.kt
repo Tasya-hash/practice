@@ -1,7 +1,7 @@
 package com.example.calculation.provider
 
-import com.example.calculations.database.DepositDao
-import com.example.calculations.database.DepositCalculationEntity
+import com.example.calculation.database.DepositDao
+import com.example.calculation.database.DepositCalculationEntity
 import com.example.domain.managers.CalculationsProvider
 import com.example.domain.models.DepositCalculation
 import kotlinx.coroutines.flow.Flow
@@ -22,7 +22,7 @@ class CalculationsProviderImpl(
     }
 
     override suspend fun deleteCalculation(calculationId: Long) {
-        depositDao.deleteCalculation(calculationId)
+        depositDao.deleteCalculationById(calculationId)
     }
 
     override suspend fun getCalculationById(calculationId: Long): DepositCalculation? {

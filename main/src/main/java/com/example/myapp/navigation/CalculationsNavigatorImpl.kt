@@ -3,9 +3,9 @@ package com.example.myapp.navigation
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import com.example.calculation.ui.CalculationDetailActivity
 import com.example.calculation.ui.MyCalculationsActivity
 import com.example.calculation.ui.NewCalculationActivity
-import com.example.calculation.ui.CalculationDetailActivity
 import com.example.domain.navigation.CalculationsNavigator
 
 class CalculationsNavigatorImpl : CalculationsNavigator {

@@ -1,9 +1,9 @@
-package com.example.myapp
+package com.example.myapp.practice
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.example.myapp.databinding.ActivityMainBinding
+import com.example.practice.databinding.ActivityMainBinding
 import com.example.domain.managers.AuthManager
 import com.example.domain.navigation.AuthNavigator
 import com.example.domain.navigation.CalculationsNavigator
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         checkAuthState()
-        setupBottomNavigation()
+        setupButtons()
     }
 
     private fun checkAuthState() {
@@ -33,35 +33,26 @@ class MainActivity : AppCompatActivity() {
                         authNavigator.openAuthFlow(this@MainActivity, AUTH_REQUEST_CODE)
                         finish()
                     }
-                    is com.example.domain.models.AuthState.Authenticated -> {
-                        // Пользователь авторизован, показываем основной экран
-                    }
                     else -> {}
                 }
             }
         }
     }
 
-    private fun setupBottomNavigation() {
-        val userId = authManager.getUserId() ?: return
+    private fun setupButtons() {
+        val userId = authManager.getUserId() ?: 1L
 
-        binding.bottomNavigation.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_new_calculation -> {
-                    calculationsNavigator.navigateToNewCalculation(this, userId)
-                    true
-                }
-                R.id.nav_my_calculations -> {
-                    calculationsNavigator.navigateToMyCalculations(this, userId)
-                    true
-                }
-                R.id.nav_logout -> {
-                    lifecycleScope.launch {
-                        authManager.logout()
-                    }
-                    true
-                }
-                else -> false
+        binding.btnNewCalculation.setOnClickListener {
+            calculationsNavigator.navigateToNewCalculation(this, userId)
+        }
+
+        binding.btnMyCalculations.setOnClickListener {
+            calculationsNavigator.navigateToMyCalculations(this, userId)
+        }
+
+        binding.btnLogout.setOnClickListener {
+            lifecycleScope.launch {
+                authManager.logout()
             }
         }
     }

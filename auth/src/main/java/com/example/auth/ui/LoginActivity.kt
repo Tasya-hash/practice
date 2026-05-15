@@ -15,7 +15,6 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private val authViewModel: AuthViewModel by inject()
     private val authNavigator: AuthNavigator by inject()
-    private val authManager: AuthManager by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +52,12 @@ class LoginActivity : AppCompatActivity() {
                 }.onFailure { error ->
                     Toast.makeText(this@LoginActivity, "Ошибка: ${error.message}", Toast.LENGTH_SHORT).show()
                 }
+            }
+        }
+
+        lifecycleScope.launch {
+            authViewModel.isLoading.collect { isLoading ->
+                binding.btnLogin.isEnabled = !isLoading
             }
         }
     }
