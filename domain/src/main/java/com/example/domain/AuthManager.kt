@@ -1,11 +1,11 @@
 package com.example.domain
 
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.StateFlow
 
 interface AuthManager {
     fun getCurrentUser(): User?
     fun isLoggedIn(): Boolean
     fun logout()
-    fun observeAuthState(): Flow<AuthState>
+    fun observeAuthState(): StateFlow<AuthState>
     fun getCurrentUserId(): Long
 }

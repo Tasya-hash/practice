@@ -8,7 +8,6 @@ import com.example.auth.data.TokenManager
 import com.example.auth.data.repository.AuthRepository
 import com.example.domain.AuthManager
 import com.example.domain.AuthNavigator
-
 class AuthModule(private val context: Context) {
 
     private val tokenManager by lazy { TokenManager(context) }
@@ -17,7 +16,7 @@ class AuthModule(private val context: Context) {
 
     fun provideAuthManager(): AuthManager = authManager
 
-    fun provideAuthNavigator(): AuthNavigator = AuthNavigatorImpl()
+    fun provideAuthNavigator(): AuthNavigator = AuthNavigatorImpl(context)
 
     fun provideAuthViewModel(): AuthViewModel {
         return AuthViewModel(authRepository, authManager as AuthManagerImpl)

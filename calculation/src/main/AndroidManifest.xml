@@ -1,14 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.calculation">
-
-    <application>
-        <activity android:name=".ui.NewCalculationActivity"
-            android:exported="false"/>
-        <activity android:name=".ui.MyCalculationsActivity"
-            android:exported="false"/>
-        <activity android:name=".ui.CalculationDetailActivity"
-            android:exported="false"/>
-    </application>
-
-</manifest>
+<manifest package="com.example.calculations" />

@@ -5,10 +5,9 @@ import android.content.Context
 import android.content.Intent
 import com.example.calculation.ui.deposits.DepositActivity
 import com.example.domain.CalculationsNavigator
+class CalculationsNavigatorImpl(private val context: Context) : CalculationsNavigator {
 
-class CalculationsNavigatorImpl : CalculationsNavigator {
-
-    override fun navigateToNewCalculation(context: Context, userId: Long) {
+    override fun navigateToNewCalculation(userId: Long) {
         val intent = Intent(context, DepositActivity::class.java).apply {
             putExtra("mode", "new")
             putExtra("userId", userId)
@@ -16,7 +15,7 @@ class CalculationsNavigatorImpl : CalculationsNavigator {
         context.startActivity(intent)
     }
 
-    override fun navigateToMyCalculations(context: Context, userId: Long) {
+    override fun navigateToMyCalculations(userId: Long) {
         val intent = Intent(context, DepositActivity::class.java).apply {
             putExtra("mode", "list")
             putExtra("userId", userId)
@@ -24,14 +23,16 @@ class CalculationsNavigatorImpl : CalculationsNavigator {
         context.startActivity(intent)
     }
 
-    override fun openCalculationFlow(activity: Activity, userId: Long) {
-        val intent = Intent(activity, DepositActivity::class.java).apply {
-            putExtra("userId", userId)
+    override fun openCalculationFlow(requestCode: Int, userId: Long) {
+        if (context is Activity) {
+            val intent = Intent(context, DepositActivity::class.java).apply {
+                putExtra("userId", userId)
+            }
+            context.startActivityForResult(intent, requestCode)
         }
-        activity.startActivity(intent)
     }
 
-    override fun navigateToCalculationDetails(context: Context, calculationId: Long, userId: Long) {
+    override fun navigateToCalculationDetails(calculationId: Long, userId: Long) {
         val intent = Intent(context, DepositActivity::class.java).apply {
             putExtra("mode", "details")
             putExtra("calculationId", calculationId)
