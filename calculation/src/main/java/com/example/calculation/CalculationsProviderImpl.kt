@@ -1,58 +1,27 @@
 package com.example.calculation
 
-import com.example.calculation.data.local.DepositCalculationEntity
-import com.example.calculation.data.local.DepositDao
-import com.example.calculation.data.local.DepositDatabase
-import com.example.domain.CalculationsProvider
-import com.example.domain.DepositCalculation
+import com.example.calculation.data.repository.DepositRepository
+import com.example.domain.interfaces.CalculationsProvider
+import com.example.domain.models.DepositCalculation
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
 
 class CalculationsProviderImpl(
-    private val database: DepositDatabase
+    private val depositRepository: DepositRepository
 ) : CalculationsProvider {
 
-    private val depositDao: DepositDao = database.depositDao()
-
     override fun getCalculationsForUser(userId: Long): Flow<List<DepositCalculation>> {
-        return depositDao.getCalculationsForUser(userId).map { entities ->
-            entities.map { it.toDomain() }
-        }
+        return depositRepository.getCalculationsForUser(userId)
     }
 
     override suspend fun saveCalculation(calculation: DepositCalculation): Long {
-        return depositDao.insertCalculation(calculation.toEntity())
+        return depositRepository.saveCalculation(calculation)
     }
 
-    override suspend fun deleteCalculation(calculationId: Long, userId: Long) {
-        depositDao.deleteCalculationById(calculationId, userId)
+    override suspend fun deleteCalculation(calculation: DepositCalculation) {
+        depositRepository.deleteCalculation(calculation)
     }
 
-    private fun DepositCalculationEntity.toDomain(): DepositCalculation {
-        return DepositCalculation(
-            id = this.id,
-            userId = this.userId,
-            initialAmount = this.initialAmount,
-            periodMonths = this.periodMonths,
-            interestRate = this.interestRate,
-            monthlyTopUp = this.monthlyTopUp,
-            finalAmount = this.finalAmount,
-            interestEarned = this.interestEarned,
-            calculationDate = this.calculationDate
-        )
-    }
-
-    private fun DepositCalculation.toEntity(): DepositCalculationEntity {
-        return DepositCalculationEntity(
-            id = this.id,
-            userId = this.userId,
-            initialAmount = this.initialAmount,
-            periodMonths = this.periodMonths,
-            interestRate = this.interestRate,
-            monthlyTopUp = this.monthlyTopUp,
-            finalAmount = this.finalAmount,
-            interestEarned = this.interestEarned,
-            calculationDate = this.calculationDate
-        )
+    override suspend fun deleteAllForUser(userId: Long) {
+        depositRepository.deleteAllForUser(userId)
     }
 }

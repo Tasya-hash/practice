@@ -1,25 +1,29 @@
 package com.example.auth
 
 import android.content.Context
-import com.example.domain.AuthManager
-import com.example.domain.AuthState
-import com.example.domain.User
-import com.example.auth.data.TokenManager
+import com.example.auth.data.repository.AuthRepository
+import com.example.auth.utils.TokenManager
+import com.example.domain.interfaces.AuthManager
+import com.example.domain.models.AuthState
+import com.example.domain.models.User
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
-class AuthManagerImpl(private val context: Context) : AuthManager {
+class AuthManagerImpl(
+    private val context: Context,
+    private val authRepository: AuthRepository,
+    private val tokenManager: TokenManager
+) : AuthManager {
 
-    private val tokenManager = TokenManager(context)
-    private val _authState = MutableStateFlow<AuthState>(if (tokenManager.isLoggedIn()) AuthState.Authenticated else AuthState.Unauthenticated)
+    private val _authState = MutableStateFlow<AuthState>(AuthState.Unauthenticated)
+    override fun observeAuthState(): Flow<AuthState> = _authState.asStateFlow()
 
     override fun getCurrentUser(): User? {
-        return if (isLoggedIn()) {
-            User(
-                id = tokenManager.getUserId(),
-                email = tokenManager.getUserEmail() ?: "",
-                username = tokenManager.getUsername() ?: ""
-            )
+        val userId = tokenManager.getUserId()
+        val email = tokenManager.getUserEmail()
+        return if (userId != -1L && email != null) {
+            User(id = userId, email = email, username = email.split("@")[0])
         } else null
     }
 
@@ -30,23 +34,49 @@ class AuthManagerImpl(private val context: Context) : AuthManager {
         _authState.value = AuthState.Unauthenticated
     }
 
-    override fun observeAuthState(): Flow<AuthState> = _authState
-
-    override fun getCurrentUserId(): Long = tokenManager.getUserId()
-
-    fun onLoginSuccess(userId: Long, email: String, username: String, token: String) {
-        tokenManager.saveToken(token)
-        tokenManager.saveUserId(userId)
-        tokenManager.saveUserEmail(email)
-        tokenManager.saveUsername(username)
-        _authState.value = AuthState.Authenticated
+    override suspend fun login(email: String, password: String): Result<User> {
+        _authState.value = AuthState.Loading(true)
+        return try {
+            val result = authRepository.login(email, password)
+            result.fold(
+                onSuccess = { authResponse ->
+                    _authState.value = AuthState.Authenticated
+                    return Result.success(User(
+                        id = authResponse.userId,
+                        email = authResponse.email,
+                        username = authResponse.username
+                    ))
+                },
+                onFailure = { exception ->
+                    _authState.value = AuthState.Error(exception.message ?: "Login failed")
+                    Result.failure(exception)
+                }
+            )
+        } finally {
+            _authState.value = AuthState.Loading(false)
+        }
     }
 
-    fun setLoading(isLoading: Boolean) {
-        _authState.value = AuthState.Loading(isLoading)
-    }
-
-    fun setError(message: String) {
-        _authState.value = AuthState.Error(message)
+    override suspend fun register(email: String, username: String, password: String): Result<User> {
+        _authState.value = AuthState.Loading(true)
+        return try {
+            val result = authRepository.register(email, username, password)
+            result.fold(
+                onSuccess = { authResponse ->
+                    _authState.value = AuthState.Authenticated
+                    Result.success(User(
+                        id = authResponse.userId,
+                        email = authResponse.email,
+                        username = authResponse.username
+                    ))
+                },
+                onFailure = { exception ->
+                    _authState.value = AuthState.Error(exception.message ?: "Registration failed")
+                    Result.failure(exception)
+                }
+            )
+        } finally {
+            _authState.value = AuthState.Loading(false)
+        }
     }
 }

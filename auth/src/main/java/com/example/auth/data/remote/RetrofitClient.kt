@@ -1,12 +1,11 @@
 package com.example.auth.data.remote
 
-import com.example.auth.data.TokenManager
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
-
+import com.example.auth.utils.TokenManager
 object RetrofitClient {
     private const val BASE_URL = "http://10.0.2.2:8080/"
 
