@@ -32,7 +32,6 @@ class AuthActivity : AppCompatActivity() {
         setupUI()
         observeViewModel()
 
-        // Проверяем, авторизован ли пользователь
         if (authViewModel.isLoggedIn()) {
             navigateToMain()
         }

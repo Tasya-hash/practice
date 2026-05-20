@@ -17,7 +17,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // Добавьте это для Java 17 compatibility
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments += mapOf("room.incremental" to "true")
